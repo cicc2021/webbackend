@@ -1,0 +1,10 @@
+# Local development database only. Production uses Utho managed PostgreSQL.
+name: cicc
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment: { POSTGRES_USER: cicc, POSTGRES_PASSWORD: cicc_dev, POSTGRES_DB: cicc }
+    ports: ["5435:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U cicc -d cicc"], interval: 5s }
+volumes: { pgdata: {} }
